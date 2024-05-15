@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
     {% if error is defined %}
-    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-        <strong>Error!</strong> {{error}}
+    <div class=""alert alert-warning alert-dismissible fade show" role="alert">
+        <strong> Warning!</strong> {{error}}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+        </div>
     {% endif %}
+
     <form class="container mt-3" method="POST" action="{{url_for('extract')}}">
         <div class="row g-3 align-items-center">
             <div class="col-auto">
@@ -15,8 +16,7 @@
                 <input type="text" name="product_id" id="product_id" class="form-control" aria-describedby="product_idHelpInline" placeholder="Enter product code here" required>
             </div>
             <div class="col-auto">
-                <span id="product_idHelpInline" class="form-text">
-                    Must be 8-10 digits long.
+                <span id="product_idHelpInline" class="form-text">Product code must be 5-10 digits long.</span>
                 </span>
             </div>
             <div class="col-auto">
