@@ -1,4 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-    <p>This is products file</p>
+     {% for product in products %}
+     <h5 class="card-title"> {{product}} </h5>
+    <!-- <div class="card">{{product_id}}</div>   
+    <p class="card-text">Name of product:.</p> -->
+    {% endfor %}
 {% endblock %}

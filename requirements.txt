@@ -8,6 +8,7 @@ colorama==0.4.6
 comm==0.2.2
 debugpy==1.8.1
 decorator==5.1.1
+deep-translator==1.11.4
 executing==2.0.1
 Flask==3.0.3
 idna==3.6
