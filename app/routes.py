@@ -3,6 +3,8 @@ from flask import render_template, request, redirect, url_for
 import os
 import json
 import requests
+import pandas as pd
+import numpy as np
 from bs4 import BeautifulSoup
 from app.utils import extract_content, score, selectors, transformations, translate
 
@@ -40,12 +42,28 @@ def extract():
                         url = "https://www.ceneo.pl"+extract_content(page_dom, "a.pagination__next", "href")
                     except TypeError:
                         url = None
-                    if not os.path.exists("app/data"):
-                         os.mkdir("app/data")    
-                    if not os.path.exists("app/data/opinions"):
-                            os.mkdir("app/data/opinions")
-                    with open(f"app/data/opinions/{product_id}.json", "w", encoding="UTF-8") as jf:
-                            json.dump(all_opinions, jf, indent=4, ensure_ascii=False)   
+                if not os.path.exists("app/data"):
+                        os.mkdir("app/data")    
+                if not os.path.exists("app/data/opinions"):
+                        os.mkdir("app/data/opinions")
+                with open(f"app/data/opinions/{product_id}.json", "w", encoding="UTF-8") as jf:
+                        json.dump(all_opinions, jf, indent=4, ensure_ascii=False)   
+                
+                MAX_SCORE = 5
+                opinions = pd.DataFrame.from_dict(all_opinions)
+                opinions.score = opinions.score.apply(lambda s: round(s*MAX_SCORE,1))
+                statistics = {
+                    "opinions_count": opinions.shape[0],
+                    "pros_count": int(opinions.pros.astype(bool).sum()),
+                    "cons_count":int(opinions.cons.astype(bool).sum()),
+                    "average_score": opinions.score.mean().round(3),
+                    "score_distribution": opinions.score.value_counts().reindex(np.arange(0.5,5.5,0.5)).to_dict(),
+                    "recommendation_distribution": opinions.recommendation.value_counts(dropna=False).reindex([1,np.nan,0]).to_dict(),
+                }
+                if not os.path.exists("app/data/statistics"):
+                        os.mkdir("app/data/statistics")
+                with open(f"app/data/statistics/{product_id}.json", "w", encoding="UTF-8") as jf:
+                        json.dump(statistics, jf, indent=4, ensure_ascii=False)
                 return redirect(url_for('product', product_id=product_id))
             return render_template("extract.html", error = "Product has no opinions.")                            
         return render_template("extract.html", error = "Product does not exist. ")
