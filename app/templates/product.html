@@ -1,5 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-    <p>This is {{product_id}} product file</p>
+<p>This is {{product_id}} product file</p>
     {{opinions}}
+</div>
+<div class="card border-dark mb-3" style="max-width: 18rem;">
+  <div class="card-body text-dark">
+    <h5 class="card-title">Downloads card for {{product_id}}</h5>
+</div>
+<div class="text-center my-4">
+    <a href="/download/csv?product_id={{ product_id }}" class="btn btn-secondary">Download CSV</a>
+    <a href="/download/xlsx?product_id={{ product_id }}" class="btn btn-secondary">Download Excel</a>
+    <a href="/download/json?product_id={{ product_id }}" class="btn btn-secondary">Download JSON</a>
+</div>
+  </div>
+{% endblock %}
+{% block scripts %}
+<script>
+    let table = new DataTable('#opinions', {
+    responsive: true
+});
+</script>
 {% endblock %}

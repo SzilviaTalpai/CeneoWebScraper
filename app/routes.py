@@ -8,6 +8,7 @@ import numpy as np
 from bs4 import BeautifulSoup
 from app.utils import extract_content, score, selectors, transformations, translate
 
+
 @app.route('/')
 def index():
     return render_template("index.html")
@@ -71,8 +72,15 @@ def extract():
 
 @app.route('/products')
 def products():
-    products = [filename.split(".")[0] for filename in os.listdir("app/data/opinions")]
-    return render_template("products.html", products=products)
+    if os.path.exists("app/opinions"):
+        products = [filename.split(".")[0] for filename in os.listdir("app/opinions")]
+    else: products = []
+    products_list = []
+    for product in products:
+        jf = open(f"app/products/{product}.json", "r", encoding="UTF-8")
+        single_product = json.load(jf)
+        products_list.append(single_product)
+    return render_template("products.html", products = products_list)
 
 @app.route('/author')
 def author():

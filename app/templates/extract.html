@@ -7,22 +7,25 @@
         </div>
     {% endif %}
 
-    <form class="container mt-3" method="POST" action="{{url_for('extract')}}">
-        <div class="row g-3 align-items-center">
-            <div class="col-auto">
-                <label for="product_id" class="col-form-label">Product code</label>
+    <<body>
+        <div class="container">
+            <form action="/extract" method="post" class="text-center">
+                <div class="form-group">
+                    <h1 class="text-center my-4">Enter Product ID</h1>
+                    <input type="text" id="product_id" name="product_id" class="form-control" style="max-width: 300px; margin: 0 auto;">
+                </div>
+                <button type="submit" class="btn btn-primary">Scrape!</button>
             </div>
             <div class="col-auto">
-                <input type="text" name="product_id" id="product_id" class="form-control" aria-describedby="product_idHelpInline" placeholder="Enter product code here" required>
+            <span id="product_idHelpInline" class="form-text">Product code must be 5-10 digits long.</span>
             </div>
-            <div class="col-auto">
-                <span id="product_idHelpInline" class="form-text">Product code must be 5-10 digits long.</span>
-                </span>
-            </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-outline-dark">Extract</button>
-            </div>
+            </form>
         </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </body>
+    </html>
         
     </form>
 {% endblock %}
